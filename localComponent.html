@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 2 With Local Component</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+        * {
+            font-family: 'Manrope', sans-serif;
+        }
+        body {
+            padding: 32px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h2 style="text-decoration: underline;">{{title}}</h2>
+        <div>
+            <dashboard />
+        </div>
+        <div>
+            <component-a />
+        </div>
+    </div>
+
+    <template id="dashboard">
+        <h3>Global Component Dashboard</h3>
+    </template>
+
+    <template id="componentA">
+        <h3>Local Component A</h3>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        Vue.component("dashboard", {
+            template: "#dashboard"
+        })
+
+        let ComponentA = { // local component
+            template: "#componentA"
+        }
+
+        let app = new Vue({
+            el: '#app',
+            components: { // declare component for local component
+                'component-a': ComponentA
+            },
+            data: {
+                title: "Local Component"
+            }
+        })
+    </script>
+</body>
+</html>

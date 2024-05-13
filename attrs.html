@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 2 parse attrs</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+        * {
+            font-family: 'Manrope', sans-serif;
+        }
+        body {
+            padding: 32px;
+            font-size: 14px;
+        }
+        .context {
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #d0d6df;
+        }
+        .slotContainer {
+            border-radius: 10px;
+            background-color: #e9e9e9;
+            margin-bottom: 20px; padding: 10px; border: 1px solid #e2e2e2;
+        }
+        h3 {
+            margin-top: 0px;
+        }
+        h2.title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 35px;
+            margin-top: 0px;
+        }
+        h2.title::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background-color: #63717c;
+            bottom: -3px;
+            left: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h2 class="title">Usage of $attrs and slot</h2>
+        <div>
+            <attr-component id="title" class="context"/>  <!-- class and style are auto bind first element -->
+        </div>
+        <br><br>
+        <div class="context">
+            <slot-component>
+                <div class="slotContainer">
+                    <h3>Slot 1 Title</h3>
+                    <p>Hello Slot 1</p>
+                </div>
+            <slot-component />
+            <slot-component> Hello Slot 2 <slot-component />
+            <slot-component> Hello Slot 3 <slot-component />
+            <slot-component> <slot-component />
+        </div>
+    </div>
+
+    <template id="appAttr">
+        <div>
+            <h2 v-bind="$attrs">Parse Attribute</h2>
+        </div>
+    </template>
+
+    <template id="appSlot">
+        <div>
+            <slot>No Context</slot>
+        </div>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+
+        Vue.component("attr-component", {
+            inheritAttrs: false,
+            template: '#appAttr',
+            data: function () {
+                return {
+                }
+            },
+        })
+
+        Vue.component("slot-component", {
+            template: '#appSlot',
+            data: function () {
+                return {
+                }
+            },
+        })
+
+        let app = new Vue({
+            el: '#app',
+            data: {
+            }
+        })
+    </script>
+</body>
+</html>

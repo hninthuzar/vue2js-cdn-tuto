@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 2 Form Input Binding</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+        * {
+            font-family: 'Manrope', sans-serif;
+        }
+        body {
+            padding: 32px;
+            font-size: 14px;
+        }
+        h1, h2, h3, h4 {
+            margin-top: 0px;
+        }
+        .completedDesign {
+            text-decoration: line-through;
+        }
+        input, select {
+            outline: none;
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid #607D8B;
+        }
+        .mt {
+            margin-top: 20px;
+        }
+        .mb {
+            margin-bottom: 20px;
+        }
+        .card {
+            border: 1px solid #97a8b0;
+            border-radius: 10px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="card inputContianer">
+            <h3>Normal Input Data Binding</h3>
+            <input type="text" v-model="msg"/>
+        </div>
+        <br><br>
+        <div class="card radioContainer">
+            <h3>Radio Input Data Binding</h3>
+            <input type="radio" value="male" v-model="sex"/> Male <br>
+            <input type="radio" value="female" v-model="sex"/> Female <br>
+            <input type="radio" value="other" v-model="sex"/> Other <br>
+        </div>
+        <br><br>
+        <div class="card checkboxContainer">
+            <h3>Checkbox Input Data Binding</h3>
+            <input id="webDev" type="checkbox" value="Web Developer" v-model="role" />
+            <label for="webDev">Web Dev</label>
+            <input id="mobileDev" type="checkbox" value="Mobile Developer" v-model="role" />
+            <label for="mobileDev">Mobile Dev</label>
+            <input id="javaDev" type="checkbox" value="Java Developer" v-model="role" />
+            <label for="javaDev">Java Dev</label>
+            
+            <div class="mt lineThrough">
+                <input id="complete" type="checkbox" v-model="completed" />
+                <label for="complete" :class="{completedDesign: completed}">Completed</label>
+            </div>
+        </div>
+        <br><br>
+
+        <div class="card selectContainer">
+            <h3>SelectBox Data Binding</h3>
+            <select v-model="selected">
+                <option disabled value="">Please select one</option>
+                <option v-for="option in options">{{option}}</option>
+            </select>
+        </div>
+        <br><br>
+        <div class="card lazyContainer">
+            <h3>Lazy Input Data Binding <small>(like as input blur event)</small></h3>
+            {{msgLazy}} <br>
+            <input type="text" v-model.lazy="msgLazy" />
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                msg: "hello",
+                sex: "male",
+                role: [],
+                completed: false,
+                options: ["Level 1", "Level 2"],
+                selected: '',
+                msgLazy: "hi"
+            }
+        })
+    </script>
+</body>
+</html>

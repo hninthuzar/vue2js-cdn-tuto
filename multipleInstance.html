@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 2 Multiple Instance with CDN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+        * {
+            font-family: 'Manrope', sans-serif;
+        }
+        body {
+            padding: 32px;
+            font-size: 14px;
+        }
+        .card {
+            border: 1px solid #97a8b0;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .block {
+            display: block;
+        }
+        .error {
+            color: red;
+            border: 1px solid red;
+            outline: none;
+        }
+        input {
+            outline: none;
+            border: 1px solid #9e9e9e;
+            border-radius: 4px;
+            padding: 3px 5px;
+            font-size: 14px;
+        }
+        button {
+            font-size: 14px;
+        }
+        .mt-none {
+            margin-top: 0px;
+        }
+        .mb-none {
+            margin-bottom: 0px;
+        }
+        .mt-xs {
+            margin-top: 10px;
+        }
+        .mb-xs {
+            margin-bottom: 10px;
+        }
+        .pl-xs {
+            padding-left: 10px;
+        }
+        .pl-sm {
+            padding-left: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app1">
+        <div class="card">
+            <h3 class="mt-none mb-xs">{{title}}</h3>
+            <basic-component />
+        </div>    
+    </div>
+    <br><br>
+    <div id="app2">
+        <div class="card">
+            <h3 class="mt-none mb-xs">{{title}}</h3>
+            <basic-component />
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        Vue.component("BasicComponent",{
+            data: function () {
+                return {
+                    title: "Welcome! "
+                }
+            },
+            template: '<div><h4>{{title}} This is Basic Component.</h4><br><button type="text" v-on:click="updateTitle">Update</button></div>',
+            methods: {
+                updateTitle() {
+                    this.title = "Hello!"
+                }
+            },
+        })
+        let app1 = new Vue({
+            el: '#app1',
+            data: {
+                title: "This is app1"
+            }
+        })
+        let app2 = new Vue({
+            el: '#app2',
+            data: {
+                title: "This is app2"
+            }
+        })
+    </script>
+</body>
+</html>

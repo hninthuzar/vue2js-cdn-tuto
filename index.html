@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 2 with CDN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+        * {
+            font-family: 'Manrope', sans-serif;
+        }
+        body {
+            padding: 32px;
+            font-size: 14px;
+        }
+        .card {
+            border: 1px solid #97a8b0;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .block {
+            display: block;
+        }
+        .error {
+            color: red;
+            border: 1px solid red;
+            outline: none;
+        }
+        input {
+            outline: none;
+            border: 1px solid #9e9e9e;
+            border-radius: 4px;
+            padding: 3px 5px;
+            font-size: 14px;
+        }
+        button {
+            font-size: 14px;
+        }
+        .mt-none {
+            margin-top: 0px;
+        }
+        .mb-none {
+            margin-bottom: 0px;
+        }
+        .mt-xs {
+            margin-top: 10px;
+        }
+        .mb-xs {
+            margin-bottom: 10px;
+        }
+        .pl-xs {
+            padding-left: 10px;
+        }
+        .pl-sm {
+            padding-left: 25px;
+        }
+        .footerLabel {
+            margin-top: 10px;
+        }
+        .paragraph {
+            color: #094943;
+            font-size: 13px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="dataBinding">
+            <h3 class="mt-none title">Data Binding</h3>
+            <div class="card">
+                <h3 class="mt-none mb-xs">{{title}}</h3>
+                <h4>{{message}}</h4>
+                <p v-bind:id="pId" v-text="info"></p> <!-- bind id dynamic and value -->
+            
+                <div class="count">
+                    <p>{{ count + 5 }}  <small class="pl-sm"> // (count + 5)</small></p>
+                </div>
+            </div>
+        </div>        
+        <br>
+
+        <div id="condition">
+            <h3 class="title">Condition</h3>
+            <div class="card">
+                <p v-if="name === 'Admin'">Seen Admin (v-if)</p> <!-- not have element -->
+                <p v-else-if="name === 'User'">Seen User</p>
+                <p v-else-if="name === 'Editor'">Seen Editor</p>
+                <p v-else>Nothing</p>
+    
+                <p v-show="seen">Hello World! (v-show)</p>  <!-- have element -->
+            </div>
+        </div>        
+        <br>
+
+        <div id="looping">
+            <h3 class="title">Looping</h3>
+            <div class="card">
+                <ul>
+                    <li v-for="item in links"><a v-bind:href="item.link" target="_blank">{{item.name}}</a></li>
+                </ul>
+            </div>
+        </div>        
+        <br>
+
+        <div id="twowayDataBinding">
+            <h3 class="title">Two Way Data Binding</h3>
+            <div class="card"> 
+                <label class="block mb-xs"><small>Two way data binding ( v-model ) :</small></label>
+                <input type="text" v-model="text" />
+            </div>
+        </div>        
+        <br>
+
+        <div id="setterAndGetter">
+            <h3 class="title">Setter And Getter Method</h3>
+            <div class="card">
+                <p class="mt-none">{{textLength()}}  / 10 <small>- (input name value length / limit number)</small></p>
+                
+                <input type="text" v-model="name" :class="{error: textLength() > 10}"/>
+                <button v-on:click="addName">Add</button>
+    
+                <ul>
+                    <li v-for="nameItem in nameArrays">{{nameItem}}</li>
+                </ul>
+            </div>
+        </div>        
+        <br>
+
+        <div id="computed">
+            <h3 class="title">Computed <small>( catch cache )</small></h3>
+            <div class="card">
+                <p class="mt-none">{{userNameLength}}  / 10 <small>- (input username value length / limit number)</small></p>
+                
+                <input type="text" v-model="userName" :class="{error: userNameLength > 10}"/>
+
+                <br><br>
+                <button @click="count++">ADD COUNT</button>
+                <p>{{ count }}</p>
+            </div>
+        </div>
+        <br>
+
+        <div id="differenceMethodComputed">
+            <h3 class="title">Difference Method and Computed </h3>
+            <div class="card">
+                <p class="mt-none">{{ randomMethod() }}  <small class="pl-sm"> // method</small></p> <!-- method -->
+                <p >{{ randomMethod() }} <small class="pl-sm"> // method</small></p> <!-- method -->
+                <p >{{ randomMethod() }} <small class="pl-sm"> // method</small></p> <!-- method -->
+    
+                <p >{{ randomComputed }} <small class="pl-sm"> // computed</small></p> <!-- computed -->
+                <p >{{ randomComputed }} <small class="pl-sm"> // computed</small></p> <!-- computed -->
+                <p >{{ randomComputed }} <small class="pl-sm"> // computed</small></p> <!-- computed -->
+            </div>
+        </div>        
+        <br>
+
+        <div id="computedMethod">
+            <h3 class="title">Computed Method <small>(get/ set)</small> </h3>
+            <div class="card">
+                <button @click="fullName='Thu Zar'">Set Name <small>(Thu Zar)</small></button>
+                <p>
+                    {{fullName}}
+                </p>
+            </div>
+        </div>        
+        <br>
+
+        <div id="watcher">
+            <h3 class="title">Watcher </h3>
+            <div class="card">
+                <p class="mt-none">{{employeeNameLength}}  / 10 <small>- (input employee name value length / limit number)</small></p>
+                
+                <input type="text" v-model="employeeName" :class="{error: employeeNameLength > 10}"/>
+                <button v-on:click="addEmployeeName" :disabled="disabled">Add</button><small class="pl-xs">(if input haven't value and greater than 10, button is disable.) </small>
+    
+                <ul>
+                    <li v-for="nameItem in employeeNameArrays">{{nameItem}}</li>
+                </ul>
+            </div>
+        </div>        
+        <br>
+
+        <div id="classBinding">
+            <h3 class="title">CSS Class Binding </h3>
+            <div class="card">
+                <div>
+                    <p class="mt-none">{{textLength()}}  / 10 <small>- (input name value length / limit number)</small></p>
+                    <input type="text" v-model="name" :style="[ textLength() > 10? setNameError : '']"/>
+                </div>
+                <br>
+                <div>
+                    <p class="mt-none">{{userNameLength}}  / 10 <small>- (input username value length / limit number)</small></p>
+                    <input type="text" v-model="userName" :style="setUserNameError"/>
+                </div>
+                <br>
+                <div>
+                    <p class="mt-none">{{employeeNameLength}}  / 10 <small>- (input employee name value length / limit number)</small></p>
+                    <input type="text" v-model="employeeName" :class="setEmployeeNameError"/>
+                </div>
+    
+                <div :class="['footerLabel','paragraph']">
+                    This is all css binding.
+                </div>
+            </div>
+        </div>        
+        <br>
+
+        <div id="filters">
+            <h3 class="title">Filters </h3>
+            <div class="card">
+                <label class="block mb-xs">uppercase</label>
+                <input type="text" v-model="employeeName" :class="{error: employeeNameLength > 10}"/>
+                <button v-on:click="addEmployeeName" :disabled="disabled">Add</button><small class="pl-xs">(if input haven't value and greater than 10, button is disable.) </small>
+    
+                <ul>
+                    <li v-for="nameItem in employeeNameArrays">{{nameItem | nameToUpper}}</li>
+                </ul>
+            </div>
+        </div>        
+        <br>
+
+        <div id="enterEvent">
+            <h3 class="title">Enter Event </h3>
+            <div class="card">
+                <label class="block mb-xs">Employee Name :</label>
+                <input
+                v-on:keyup="checkerInputBox"
+                type="text"            
+                v-model="employeeName"
+                :class="{error: employeeNameLength > 10}"/>
+                <button v-on:click="addEmployeeName" :disabled="disabled">Add</button><small class="pl-xs">(if input haven't value and greater than 10, button is disable.) </small>
+    
+                <ul>
+                    <li v-for="nameItem in employeeNameArrays">{{nameItem}}</li>
+                </ul>
+            </div>
+        </div>        
+        <br>
+
+        <div id="formSubmit">
+            <h3 class="title">Form Submit</h3>
+            <div class="card">
+                <form @submit.prevent="addUserName()">
+                    <label class="block mb-xs">User Name :</label>
+                    <input
+                    type="text"            
+                    v-model="userName"
+                    :class="{error: userNameLength > 10}"/>
+                    <button :disabled="disabled">Add</button><small class="pl-xs">(if input haven't value and greater than 10, button is disable.) </small>
+    
+                    <ul>
+                        <li v-for="nameItem in userNameArrays">{{nameItem}}</li>
+                    </ul>
+                </form>
+            </div>
+        </div>        
+    
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                title: "Welcome to vue!",
+                message: 'vue2 lesson with cdn',
+                info: "another way can show data with vue property just like v-html, v-text, v-model, etc..",
+                pId: 'msg',
+                count: 1,
+                name: "Admin",
+                seen: true,
+                links: [
+                    {
+                        name: "Google",
+                        link: "https://www.google.com/"
+                    },
+                    {
+                        name: "Youtube",
+                        link: "https://www.youtube.com/"
+                    },
+                    {
+                        name: "Linkin",
+                        link: "https://www.linkedin.com/"
+                    }
+                ],
+                text: "Hello",
+                name: "",
+                userName: "",
+                nameArrays: [],
+                firstName: "Hnin",
+                lastName: "Hnin",
+                disabled: true,
+                employeeName: "",
+                userNameArrays: [],
+                employeeNameArrays: [],
+                setNameError: {
+                    color: '#FF5722',
+                    border: '1px solid #FF5722'
+                }
+            },
+            methods: {
+                addName() {  //setter method
+                    this.nameArrays.push(this.name);
+                    this.name = '';
+                },
+                addUserName() {  //setter method
+                    this.userNameArrays.push(this.userName);
+                    this.userName = '';
+                },
+                addEmployeeName() {
+                    this.employeeNameArrays.push(this.employeeName);
+                    this.employeeName = '';
+                },
+                textLength() { // getter method
+                    // console.log("hi"); // for cache example
+                    return this.name.length
+                },
+                randomMethod() {
+                    return Math.random()
+                },
+                checkerInputBox(e) {
+                    if(e.keyCode === 13) { // enter keycode 13
+                        if(this.employeeNameLength > 0 && this.employeeNameLength <=10) {
+                            this.addEmployeeName()
+                        } else {
+                            alert("Enter Valid Value.")
+                        }                     
+                    }
+                }
+            },
+
+            computed: { // if test computed, close getter setter method section
+                userNameLength() {
+                    // console.log("hello"); // for cache example
+                    return this.userName.length
+                },
+                employeeNameLength() {
+                    // console.log("hello"); // for cache example
+                    return this.employeeName.length
+                },
+                setUserNameError() {
+                    if(this.userNameLength > 10) {
+                        return {
+                            color: 'orange',
+                            border: '1px solid orange'
+                        }
+                    }
+                },
+                setEmployeeNameError() {
+                    if(this.employeeNameLength > 10) {
+                        return 'error'
+                    }                    
+                },
+                randomComputed() {
+                    return Math.random()
+                },
+                fullName: {
+                    get() {
+                        return `${this.firstName} ${this.lastName}`
+                    },
+                    set(val) {
+                        let name = val.split(' ');
+                        this.firstName = name[0];
+                        this.lastName = name[1];
+                    }
+                }
+            },
+            watch: {
+                userName(newVal, oldVal) {
+                    if(newVal.length > 0 && newVal.length <= 10) {
+                        this.disabled = false;
+                    } else {
+                        this.disabled = true;
+                    }
+                },
+                employeeName(newVal, oldVal) {
+                    // console.log(newVal);
+                    // console.log(oldVal);
+                    if(newVal.length > 0 && newVal.length <= 10) {
+                        this.disabled = false;
+                    } else {
+                        this.disabled = true;
+                    }
+                }
+            },
+
+            filters: {
+                nameToUpper(val) {
+                    return val.toUpperCase()
+                }
+            }
+        })
+    </script>
+</body>
+</html>
